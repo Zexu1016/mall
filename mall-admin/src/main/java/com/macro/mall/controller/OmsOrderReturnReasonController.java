@@ -25,7 +25,7 @@ public class OmsOrderReturnReasonController {
     private OmsOrderReturnReasonService orderReturnReasonService;
 
     @ApiOperation("添加退货原因")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
+    @PostMapping("/create")
     public CommonResult create(@RequestBody OmsOrderReturnReason returnReason) {
         int count = orderReturnReasonService.create(returnReason);
         if (count > 0) {
@@ -35,7 +35,7 @@ public class OmsOrderReturnReasonController {
     }
 
     @ApiOperation("修改退货原因")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
+    @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id, @RequestBody OmsOrderReturnReason returnReason) {
         int count = orderReturnReasonService.update(id, returnReason);
         if (count > 0) {
@@ -45,7 +45,7 @@ public class OmsOrderReturnReasonController {
     }
 
     @ApiOperation("批量删除退货原因")
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @PostMapping("/delete")
     public CommonResult delete(@RequestParam("ids") List<Long> ids) {
         int count = orderReturnReasonService.delete(ids);
         if (count > 0) {
@@ -55,7 +55,7 @@ public class OmsOrderReturnReasonController {
     }
 
     @ApiOperation("分页查询退货原因")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    @GetMapping("/list")
     public CommonResult<CommonPage<OmsOrderReturnReason>> list(@RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                                @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
         List<OmsOrderReturnReason> reasonList = orderReturnReasonService.list(pageSize, pageNum);
@@ -63,14 +63,14 @@ public class OmsOrderReturnReasonController {
     }
 
     @ApiOperation("获取单个退货原因详情信息")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @GetMapping("/{id}")
     public CommonResult<OmsOrderReturnReason> getItem(@PathVariable Long id) {
         OmsOrderReturnReason reason = orderReturnReasonService.getItem(id);
         return CommonResult.success(reason);
     }
 
     @ApiOperation("修改退货原因启用状态")
-    @RequestMapping(value = "/update/status", method = RequestMethod.POST)
+    @PostMapping("/update/status")
     public CommonResult updateStatus(@RequestParam(value = "status") Integer status,
                                      @RequestParam("ids") List<Long> ids) {
         int count = orderReturnReasonService.updateStatus(ids, status);

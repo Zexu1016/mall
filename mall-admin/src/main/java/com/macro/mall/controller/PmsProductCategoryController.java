@@ -9,8 +9,7 @@ import com.macro.mall.service.PmsProductCategoryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,17 +19,16 @@ import java.util.List;
  * 商品分类管理Controller
  * Created by macro on 2018/4/26.
  */
-@Controller
+@RestController
 @Api(tags = "PmsProductCategoryController")
 @Tag(name = "PmsProductCategoryController", description = "商品分类管理")
 @RequestMapping("/productCategory")
+@RequiredArgsConstructor
 public class PmsProductCategoryController {
-    @Autowired
-    private PmsProductCategoryService productCategoryService;
+    private final PmsProductCategoryService productCategoryService;
 
     @ApiOperation("添加商品分类")
-    @RequestMapping(value = "/create", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/create")
     public CommonResult create(@Validated @RequestBody PmsProductCategoryParam productCategoryParam) {
         int count = productCategoryService.create(productCategoryParam);
         if (count > 0) {
@@ -41,8 +39,7 @@ public class PmsProductCategoryController {
     }
 
     @ApiOperation("修改商品分类")
-    @RequestMapping(value = "/update/{id}", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/update/{id}")
     public CommonResult update(@PathVariable Long id,
                          @Validated
                          @RequestBody PmsProductCategoryParam productCategoryParam) {
@@ -55,8 +52,7 @@ public class PmsProductCategoryController {
     }
 
     @ApiOperation("分页查询商品分类")
-    @RequestMapping(value = "/list/{parentId}", method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping("/list/{parentId}")
     public CommonResult<CommonPage<PmsProductCategory>> getList(@PathVariable Long parentId,
                                                                 @RequestParam(value = "pageSize", defaultValue = "5") Integer pageSize,
                                                                 @RequestParam(value = "pageNum", defaultValue = "1") Integer pageNum) {
@@ -65,16 +61,14 @@ public class PmsProductCategoryController {
     }
 
     @ApiOperation("根据id获取商品分类")
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping("/{id}")
     public CommonResult<PmsProductCategory> getItem(@PathVariable Long id) {
         PmsProductCategory productCategory = productCategoryService.getItem(id);
         return CommonResult.success(productCategory);
     }
 
     @ApiOperation("删除商品分类")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/delete/{id}")
     public CommonResult delete(@PathVariable Long id) {
         int count = productCategoryService.delete(id);
         if (count > 0) {
@@ -85,8 +79,7 @@ public class PmsProductCategoryController {
     }
 
     @ApiOperation("修改导航栏显示状态")
-    @RequestMapping(value = "/update/navStatus", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/update/navStatus")
     public CommonResult updateNavStatus(@RequestParam("ids") List<Long> ids, @RequestParam("navStatus") Integer navStatus) {
         int count = productCategoryService.updateNavStatus(ids, navStatus);
         if (count > 0) {
@@ -97,8 +90,7 @@ public class PmsProductCategoryController {
     }
 
     @ApiOperation("修改显示状态")
-    @RequestMapping(value = "/update/showStatus", method = RequestMethod.POST)
-    @ResponseBody
+    @PostMapping("/update/showStatus")
     public CommonResult updateShowStatus(@RequestParam("ids") List<Long> ids, @RequestParam("showStatus") Integer showStatus) {
         int count = productCategoryService.updateShowStatus(ids, showStatus);
         if (count > 0) {
@@ -109,8 +101,7 @@ public class PmsProductCategoryController {
     }
 
     @ApiOperation("查询所有一级分类及子分类")
-    @RequestMapping(value = "/list/withChildren", method = RequestMethod.GET)
-    @ResponseBody
+    @GetMapping("/list/withChildren")
     public CommonResult<List<PmsProductCategoryWithChildrenItem>> listWithChildren() {
         List<PmsProductCategoryWithChildrenItem> list = productCategoryService.listWithChildren();
         return CommonResult.success(list);
