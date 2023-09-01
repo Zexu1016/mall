@@ -7,6 +7,7 @@ import com.macro.mall.service.OmsOrderReturnReasonService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,9 +21,9 @@ import java.util.List;
 @Api(tags = "OmsOrderReturnReasonController")
 @Tag(name = "OmsOrderReturnReasonController", description = "退货原因管理")
 @RequestMapping("/returnReason")
+@RequiredArgsConstructor
 public class OmsOrderReturnReasonController {
-    @Autowired
-    private OmsOrderReturnReasonService orderReturnReasonService;
+    private final OmsOrderReturnReasonService orderReturnReasonService;
 
     @ApiOperation("添加退货原因")
     @PostMapping("/create")
